@@ -10,7 +10,11 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
-
+use app\models\UploadForm;
+use PHPUnit\Util\Json;
+use RestClient;
+use yii\helpers\Json as HelpersJson;
+use yii\web\UploadedFile;
 
 class SiteController extends Controller
 {
@@ -115,6 +119,7 @@ class SiteController extends Controller
         }
         return $this->render('contact', [
             'model' => $model,
+
         ]);
     }
 
@@ -128,24 +133,36 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionFeed() {
+    public function actionUpload()
+    {
+        $model = new UploadForm();
+        
+        if (Yii::$app->request->isPost) {
+            
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+                return;
+            }
+        }
+
+        return $this->render('uploadfile', ['model' => $model]);
+    }
+    public function actionFeed(){
 
         $api = new RestClient([
             'base_url'=> 'http://localhost:9999/api',
-            'headers'=>[
-                "Accept"=> 'application/json'
+            'header'=>[
+                'Accept'=>'application/json'
             ]
-
         ]);
 
         $result = $api->get('/default');
 
-        $data = Json::decode($result->response);
+        $data = HelpersJson::decode($result->response);
 
-
-        return $this->render('feed', [
-            'data' => 'data'
+        return $this->render('feed',[
+            'data'=>$data
         ]);
-        
     }
 }

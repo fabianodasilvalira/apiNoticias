@@ -4,26 +4,24 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\NoticiasSearch */
+/* @var $model app\models\CategoriaSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="noticias-search">
+<div class="categoria-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'id_categoria') ?>
 
-    <?= $form->field($model, 'titulo') ?>
+    <?= $form->field($model, 'descricao_categoria') ?>
 
-    <?= $form->field($model, 'cabeca') ?>
+    <?= $form->field($model, 'url_categoria') ?>
 
-    <?= $form->field($model, 'corpo') ?>
-
-    <?= $form->field($model, 'status') ?>
+    <?= $form->field($model, 'imagem_categoria') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

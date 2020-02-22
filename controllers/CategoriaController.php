@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Noticias;
-use app\models\NoticiasSearch;
+use app\models\Categoria;
+use app\models\CategoriaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * NoticiasController implements the CRUD actions for Noticias model.
+ * CategoriaController implements the CRUD actions for Categoria model.
  */
-class NoticiasController extends Controller
+class CategoriaController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class NoticiasController extends Controller
     }
 
     /**
-     * Lists all Noticias models.
+     * Lists all Categoria models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new NoticiasSearch();
+        $searchModel = new CategoriaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class NoticiasController extends Controller
     }
 
     /**
-     * Displays a single Noticias model.
+     * Displays a single Categoria model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,16 +58,16 @@ class NoticiasController extends Controller
     }
 
     /**
-     * Creates a new Noticias model.
+     * Creates a new Categoria model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Noticias();
+        $model = new Categoria();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id_categoria]);
         }
 
         return $this->render('create', [
@@ -76,7 +76,7 @@ class NoticiasController extends Controller
     }
 
     /**
-     * Updates an existing Noticias model.
+     * Updates an existing Categoria model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -87,7 +87,7 @@ class NoticiasController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id_categoria]);
         }
 
         return $this->render('update', [
@@ -96,7 +96,7 @@ class NoticiasController extends Controller
     }
 
     /**
-     * Deletes an existing Noticias model.
+     * Deletes an existing Categoria model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,18 +110,18 @@ class NoticiasController extends Controller
     }
 
     /**
-     * Finds the Noticias model based on its primary key value.
+     * Finds the Categoria model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Noticias the loaded model
+     * @return Categoria the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Noticias::findOne($id)) !== null) {
+        if (($model = Categoria::findOne($id)) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('A página requisitada não existe');
     }
 }

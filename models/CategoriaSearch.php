@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Noticias;
+use app\models\Categoria;
 
 /**
- * NoticiasSearch represents the model behind the search form of `app\models\Noticias`.
+ * CategoriaSearch represents the model behind the search form of `app\models\Categoria`.
  */
-class NoticiasSearch extends Noticias
+class CategoriaSearch extends Categoria
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class NoticiasSearch extends Noticias
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
-            [['titulo', 'cabeca', 'corpo'], 'safe'],
+            [['id_categoria'], 'integer'],
+            [['descricao_categoria', 'url_categoria', 'imagem_categoria'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class NoticiasSearch extends Noticias
      */
     public function search($params)
     {
-        $query = Noticias::find();
+        $query = Categoria::find();
 
         // add conditions that should always apply here
 
@@ -58,13 +58,12 @@ class NoticiasSearch extends Noticias
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'status' => $this->status,
+            'id_categoria' => $this->id_categoria,
         ]);
 
-        $query->andFilterWhere(['like', 'titulo', $this->titulo])
-            ->andFilterWhere(['like', 'cabeca', $this->cabeca])
-            ->andFilterWhere(['like', 'corpo', $this->corpo]);
+        $query->andFilterWhere(['like', 'descricao_categoria', $this->descricao_categoria])
+            ->andFilterWhere(['like', 'url_categoria', $this->url_categoria])
+            ->andFilterWhere(['like', 'imagem_categoria', $this->imagem_categoria]);
 
         return $dataProvider;
     }
