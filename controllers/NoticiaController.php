@@ -127,6 +127,15 @@ class NoticiaController extends Controller
 
         return $this->redirect(['index']);
     }
+    
+    public function actionPorCategoria($id)
+    {
+        $model = Noticia::find()->where(['id_categoria'=>$id])->all();
+        echo "<pre>";
+        var_dump($model);
+        echo "</pre>";
+        die;
+    } 
 
     /**
      * Finds the Noticia model based on its primary key value.
@@ -143,4 +152,5 @@ class NoticiaController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }

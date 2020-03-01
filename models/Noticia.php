@@ -86,8 +86,16 @@ class Noticia extends \yii\db\ActiveRecord
             'data_noticia',
             'ativo'=>function(Noticia $model){
                 return ($model->ativo == '1' ? 'Ativo' : 'Inativo');
-            }
+            },
+            'categoria',
+            // 'id_categoria',
             
+        ];
+    }
+
+    public function extraFields(){
+        return [
+            'categoria',
         ];
     }
     

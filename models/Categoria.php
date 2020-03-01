@@ -12,7 +12,7 @@ use Yii;
  * @property string $url_categoria
  * @property string $imagem_categoria
  *
- * @property Noticias[] $noticias
+ * @property Noticia[] $noticias
  */
 class Categoria extends \yii\db\ActiveRecord
 {
@@ -56,6 +56,6 @@ class Categoria extends \yii\db\ActiveRecord
      */
     public function getNoticias()
     {
-        return $this->hasMany(Noticias::className(), ['id_categoria' => 'id_categoria']);
+        return $this->hasMany(Noticia::className(), ['id_categoria' => 'id_categoria']);
     }
 }
