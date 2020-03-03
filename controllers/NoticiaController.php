@@ -158,49 +158,83 @@ class NoticiaController extends Controller
     {
         // Acessar API com HTTP Authenticate
         // $method = 'POST';
-        $url_api = 'https://fcm.googleapis.com/fcm/send';
-        $key = 'AAAAdo7fu6Y:APA91bFCoCti2s6_WP6sCtd02O7fwWKX9Xqo87m3eMeQXI8v-Az-_h2LfkBVnhCb258Y5V_j6FWjlTP0zu9j3emUmVlxuSx4UZ7ERFz7EtmXAK3pN1COFM0eFAcNUSR_SDVNmLyG0RhF';
-        $json = '{
-            "to": "/topics/all",
-            "dry_run": true,
-            "notification" : {
-                "title": "Suco baitola:",
-                "body": "Achou a solução",
-                "android_channel_id": "",
-            }
-        }';
-        // Inicia 'o CURL, definindo o site alvo:
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url_api,
-            CURLOPT_POST => True,
-            // Equivalente ao -H:
-            CURLOPT_HTTPHEADER => [
-                "Authorization: key=$key",
-                "Content-Type: application/json;charset=UTF-8",
-            ],
-            CURLOPT_POSTFIELDS => $json,
-            // Permite obter resposta:
-            CURLOPT_RETURNTRANSFER => true,
-        ]);
+        // $url_api = 'https://fcm.googleapis.com/fcm/send';
+        // $key = 'AAAAdo7fu6Y:APA91bFCoCti2s6_WP6sCtd02O7fwWKX9Xqo87m3eMeQXI8v-Az-_h2LfkBVnhCb258Y5V_j6FWjlTP0zu9j3emUmVlxuSx4UZ7ERFz7EtmXAK3pN1COFM0eFAcNUSR_SDVNmLyG0RhF';
+        // $json = '{
+            
+        //     "to": "/topics/Noticias",
+        //     "notification" : {
+        //         "title": "Suco baitola:",
+        //         "body": "Achou a solução",
+        //         "android_channel_id": "default_channel_id",
+        //     }
+        // }';
+        // // Inicia 'o CURL, definindo o site alvo:
+        // $ch = curl_init();
+        // curl_setopt_array($ch, [
+        //     CURLOPT_URL => $url_api,
+        //     // CURLOPT_POST => True,
+        //     CURLOPT_CUSTOMREQUEST => "POST",
+        //     // Equivalente ao -H:
+        //     CURLOPT_HTTPHEADER => [
+        //         "Authorization: key=$key",
+        //         "Content-Type: application/json;charset=UTF-8",
+        //     ],
+        //     CURLOPT_POSTFIELDS => $json,
+        //     // Permite obter resposta:
+        //     CURLOPT_RETURNTRANSFER => true,
+        // ]);
 
-        // Executa:
-        $resultado = curl_exec($ch);
-        var_dump($resultado);
-        die();
+        // // Executa:
+        // $resultado = curl_exec($ch);
+        // var_dump($resultado);
+        // die();
 
         // Encerra CURL:
-        curl_close($ch);
-        return True;
+        // curl_close($ch);
+        // return True;
+        // var_dump(date("d/m/Y H:i:s", time()));
+        // die;
+        $curl = curl_init();
 
-        // $params=['name'=>'John', 'surname'=>'Doe', 'age'=>36];
-        // $defaults = array(
-        //     CURLOPT_URL => 'http://myremoteservice/',
-        //     CURLOPT_POST => true,
-        //     CURLOPT_POSTFIELDS => $params,
-        // );
-        // $ch = curl_init();
-        // curl_setopt_array($ch, ($options + $defaults));
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+            CURLOPT_RETURNTRANSFER => true,
+            // CURLOPT_ENCODING => "",
+            // CURLOPT_MAXREDIRS => 10,
+            // CURLOPT_TIMEOUT => 30,
+            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            // CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POST => True,
+            CURLOPT_POSTFIELDS => '{
+                "to":  "/topics/Noticias",
+                "notification" : {
+                    "title": "' . date("d/m/Y H:i:s", time()) . ' Suco de Frutas:",
+                    "body": "' . $body . '"
+                }
+            }',
+            CURLOPT_HTTPHEADER => array(
+                "authorization: key=AAAAdo7fu6Y:APA91bFCoCti2s6_WP6sCtd02O7fwWKX9Xqo87m3eMeQXI8v-Az-_h2LfkBVnhCb258Y5V_j6FWjlTP0zu9j3emUmVlxuSx4UZ7ERFz7EtmXAK3pN1COFM0eFAcNUSR_SDVNmLyG0RhF",
+                "content-type: application/json;charset=UTF-8",
+            ),
+                // "cache-control: no-cache",
+                // "postman-token: b5471185-6921-5cea-bfd0-cdf0d252a8df"
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+          echo "cURL Error #:" . $err;
+        } else {
+          echo $response;
+        }
+
+        var_dump($response);
+        die;
+        return $response or $err;
     }
 
 }
