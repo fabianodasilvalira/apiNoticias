@@ -161,10 +161,12 @@ class NoticiaController extends Controller
         $url_api = 'https://fcm.googleapis.com/fcm/send';
         $key = 'AAAAdo7fu6Y:APA91bFCoCti2s6_WP6sCtd02O7fwWKX9Xqo87m3eMeQXI8v-Az-_h2LfkBVnhCb258Y5V_j6FWjlTP0zu9j3emUmVlxuSx4UZ7ERFz7EtmXAK3pN1COFM0eFAcNUSR_SDVNmLyG0RhF';
         $json = '{
-            "to": "",
+            "to": "/topics/all",
+            "dry_run": true,
             "notification" : {
-                "title": "Título da notificação",
-                "body": "Teste",
+                "title": "Suco baitola:",
+                "body": "Achou a solução",
+                "android_channel_id": "",
             }
         }';
         // Inicia 'o CURL, definindo o site alvo:
