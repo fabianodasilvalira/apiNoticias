@@ -86,6 +86,7 @@ class NoticiaController extends Controller
         // die;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->notificaApp("testando noticia do suco");
             return $this->redirect(['view', 'id' => $model->id_noticias]);
         }
 
@@ -151,6 +152,53 @@ class NoticiaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function notificaApp($body)
+    {
+        // Acessar API com HTTP Authenticate
+        // $method = 'POST';
+        $url_api = 'https://fcm.googleapis.com/fcm/send';
+        $key = 'AAAAdo7fu6Y:APA91bFCoCti2s6_WP6sCtd02O7fwWKX9Xqo87m3eMeQXI8v-Az-_h2LfkBVnhCb258Y5V_j6FWjlTP0zu9j3emUmVlxuSx4UZ7ERFz7EtmXAK3pN1COFM0eFAcNUSR_SDVNmLyG0RhF';
+        $json = '{
+            "to": "",
+            "notification" : {
+                "title": "Título da notificação",
+                "body": "Teste",
+            }
+        }';
+        // Inicia 'o CURL, definindo o site alvo:
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url_api,
+            CURLOPT_POST => True,
+            // Equivalente ao -H:
+            CURLOPT_HTTPHEADER => [
+                "Authorization: key=$key",
+                "Content-Type: application/json;charset=UTF-8",
+            ],
+            CURLOPT_POSTFIELDS => $json,
+            // Permite obter resposta:
+            CURLOPT_RETURNTRANSFER => true,
+        ]);
+
+        // Executa:
+        $resultado = curl_exec($ch);
+        var_dump($resultado);
+        die();
+
+        // Encerra CURL:
+        curl_close($ch);
+        return True;
+
+        // $params=['name'=>'John', 'surname'=>'Doe', 'age'=>36];
+        // $defaults = array(
+        //     CURLOPT_URL => 'http://myremoteservice/',
+        //     CURLOPT_POST => true,
+        //     CURLOPT_POSTFIELDS => $params,
+        // );
+        // $ch = curl_init();
+        // curl_setopt_array($ch, ($options + $defaults));
     }
 
 }

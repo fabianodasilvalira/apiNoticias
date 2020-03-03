@@ -56,7 +56,7 @@ class Noticia extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_noticias' => 'Id Noticias',
+            // 'id_noticias' => 'Id Noticias',
             'id_categoria' => 'Id Categoria',
             'titulo_noticia' => 'Titulo Noticia',
             'descricao_noticia' => 'Descricao Noticia',
@@ -84,9 +84,9 @@ class Noticia extends \yii\db\ActiveRecord
             'descricao_noticia',
             'autor_noticia',
             'data_noticia',
+            'image_noticia',
             'ativo'=>function(Noticia $model){
-                return ($model->ativo == '1' ? 'Ativo' : 'Inativo');
-            },
+                return ($model->ativo == '1' ? 'Ativo' : 'Inativo');  },
             'categoria',
             // 'id_categoria',
             
