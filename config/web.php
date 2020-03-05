@@ -5,6 +5,12 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'Miguelas News',
+    'version' => '0.00000001',
+    'language' => 'pt-BR',
+    'sourceLanguage' => 'pt_BR',
+    'timeZone' => 'America/Fortaleza',
+    'charset' => 'UTF-8',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -22,6 +28,12 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'identityCookie' => ['name' => '_identity-desif', 'httpOnly' => true],
+            'authTimeout' => 1800, // Segundos de inatividade permitida até ser deslogado.
+        ],
+        'session' => [
+            // this is the name of the session cookie used for login on the desif
+            'name' => 'MiguelasNews',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -57,6 +69,21 @@ $config = [
                     ],
                 ],
             ],
+        ],
+
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'locale' => 'pt_BR',
+            'dateFormat' => 'php:d/m/Y',
+            'datetimeFormat' => 'php:d/m/Y H:i:s',
+            'timeFormat' => 'php:H:i:s',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => '.',
+            'currencyCode' => 'R$',
+            'numberFormatterOptions' => [
+                NumberFormatter::MIN_FRACTION_DIGITS => 2,
+                NumberFormatter::MAX_FRACTION_DIGITS => 2,
+            ]
         ],
         
     ],

@@ -2,10 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\Models\Categoria;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Noticia */
 /* @var $form yii\widgets\ActiveForm */
+
+$items = Categoria::find()->select(['descricao_categoria'])->indexBy('id_categoria')->column();
 ?>
 
 <div class="noticia-form">
@@ -13,7 +16,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
     <?php //$form = ActiveForm::begin(); ?>
     
-    <?= $form->field($model, 'id_categoria')->textInput() ?>
+    <?= $form->field($model, 'id_categoria')->DropdownList($items) ?>
     
     <?= $form->field($model, 'titulo_noticia')->textInput(['maxlength' => true]) ?>
 

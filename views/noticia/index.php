@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\NoticiaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Noticias';
+$this->title = 'Notícias';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="noticia-index">
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'descricao_noticia',
             'autor_noticia',
             //'data_noticia',
-            //'image_noticia',
+            'image_noticia',
             //'ativo',
 
             ['class' => 'yii\grid\ActionColumn'],
