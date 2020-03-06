@@ -7,11 +7,16 @@ use Yii;
 /**
  * This is the model class for table "categoria".
  *
- * @property int $id_categoria
- * @property string $descricao_categoria
- * @property string $url_categoria
- * @property string $imagem_categoria
+ * @property int $id
+ * @property string $nome
+ * @property string|null $descricao
+ * @property int $id_user
+ * @property int $status
+ * @property string $dt_in
+ * @property string $dt_up
+ * @property string|null $logs
  *
+ * @property User $user
  * @property Noticia[] $noticias
  */
 class Categoria extends \yii\db\ActiveRecord
@@ -30,9 +35,12 @@ class Categoria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['descricao_categoria', 'url_categoria', 'imagem_categoria'], 'required'],
-            [['descricao_categoria'], 'string', 'max' => 50],
-            [['url_categoria', 'imagem_categoria'], 'string', 'max' => 150],
+            [['nome', 'id_user'], 'required'],
+            [['descricao', 'logs'], 'string'],
+            [['id_user', 'status'], 'integer'],
+            [['dt_in', 'dt_up'], 'safe'],
+            [['nome'], 'string', 'max' => 100],
+            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_user' => 'id']],
         ];
     }
 
@@ -42,11 +50,22 @@ class Categoria extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_categoria' => 'Id Categoria',
-            'descricao_categoria' => 'Descricao Categoria',
-            'url_categoria' => 'Url Categoria',
-            'imagem_categoria' => 'Imagem Categoria',
+            'id' => 'ID',
+            'nome' => 'Nome',
+            'descricao' => 'Descrição',
+            'id_user' => 'User',
+            'status' => 'Status',
         ];
+    }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'id_user']);
     }
 
     /**
@@ -56,6 +75,6 @@ class Categoria extends \yii\db\ActiveRecord
      */
     public function getNoticias()
     {
-        return $this->hasMany(Noticia::className(), ['id_categoria' => 'id_categoria']);
+        return $this->hasMany(Noticia::className(), ['id_categoria' => 'id']);
     }
 }

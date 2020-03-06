@@ -1,13 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-
+use yii\widgets\ListView;
+use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\NoticiaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Notícias';
+$this->title = 'Noticias';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="noticia-index">
@@ -18,26 +18,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Noticia', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php Pjax::begin(); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
+    <?= ListView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        'itemOptions' => ['class' => 'item'],
+        'itemView' => function ($model, $key, $index, $widget) {
+            return Html::a(Html::encode($model->id), ['view', 'id' => $model->id]);
+        },
+    ]) ?>
 
-            // 'id_noticias',
-            'categoria.descricao_categoria',
-            'titulo_noticia',
-            'descricao_noticia',
-            'autor_noticia',
-            //'data_noticia',
-            'image_noticia',
-            //'ativo',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+    <?php Pjax::end(); ?>
 
 </div>

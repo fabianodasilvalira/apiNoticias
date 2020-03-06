@@ -7,10 +7,7 @@ use app\models\Noticia;
 use app\models\NoticiaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
-
-use app\models\UploadForm;
 
 /**
  * NoticiaController implements the CRUD actions for Noticia model.
@@ -68,25 +65,9 @@ class NoticiaController extends Controller
     public function actionCreate()
     {
         $model = new Noticia();
-        $file = new UploadForm();
 
-        if (Yii::$app->request->isPost) {
-            
-            
-            $file->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            
-            $model->image_noticia = $file->upload();
-        }
-        // if ($model->load(Yii::$app->request->post())){
-        //     echo "<pre>";
-        //     var_dump($model);
-        //     echo "</pre>";
-        //     die;
-        // }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->notificaApp($model);
-            return $this->redirect(['view', 'id' => $model->id_noticias]);
-            
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -106,7 +87,7 @@ class NoticiaController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_noticias]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -142,39 +123,5 @@ class NoticiaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-    
-    protected function notificaApp($model)
-    {
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => True,
-            CURLOPT_POSTFIELDS => '{
-                "to":  "/topics/Noticias",
-                "notification" : {
-                    "title": "' . $model->titulo_noticia . '",
-                    "body": "' . $model->descricao_noticia . '",
-                    "color": "#00008B",
-                    "ticker": "' . $model->id_noticias . '",
-                    "image": "https://miguelasnew.000webhostapp.com/' . $model->image_noticia . '"
-                },
-                "data" : {
-                    "id" : "' . $model->id_noticias . '",
-                }
-            }',
-            CURLOPT_HTTPHEADER => array(
-                "authorization: key=AAAAdo7fu6Y:APA91bFCoCti2s6_WP6sCtd02O7fwWKX9Xqo87m3eMeQXI8v-Az-_h2LfkBVnhCb258Y5V_j6FWjlTP0zu9j3emUmVlxuSx4UZ7ERFz7EtmXAK3pN1COFM0eFAcNUSR_SDVNmLyG0RhF",
-                "content-type: application/json;charset=UTF-8",
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-        
-        return !($err) ? $response : "cURL Error #:" . $err;
     }
 }

@@ -17,8 +17,8 @@ class NoticiaSearch extends Noticia
     public function rules()
     {
         return [
-            [['id_noticias', 'id_categoria', 'ativo'], 'integer'],
-            [['titulo_noticia', 'descricao_noticia', 'autor_noticia', 'data_noticia', 'image_noticia'], 'safe'],
+            [['id', 'id_categoria', 'id_user', 'status'], 'integer'],
+            [['titulo', 'corpo', 'fonte_nm', 'fonte_url', 'dt_publicacao', 'dt_in', 'dt_up', 'logs'], 'safe'],
         ];
     }
 
@@ -58,16 +58,20 @@ class NoticiaSearch extends Noticia
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_noticias' => $this->id_noticias,
+            'id' => $this->id,
             'id_categoria' => $this->id_categoria,
-            'data_noticia' => $this->data_noticia,
-            'ativo' => $this->ativo,
+            'dt_publicacao' => $this->dt_publicacao,
+            'id_user' => $this->id_user,
+            'status' => $this->status,
+            'dt_in' => $this->dt_in,
+            'dt_up' => $this->dt_up,
         ]);
 
-        $query->andFilterWhere(['like', 'titulo_noticia', $this->titulo_noticia])
-            ->andFilterWhere(['like', 'descricao_noticia', $this->descricao_noticia])
-            ->andFilterWhere(['like', 'autor_noticia', $this->autor_noticia])
-            ->andFilterWhere(['like', 'image_noticia', $this->image_noticia]);
+        $query->andFilterWhere(['like', 'titulo', $this->titulo])
+            ->andFilterWhere(['like', 'corpo', $this->corpo])
+            ->andFilterWhere(['like', 'fonte_nm', $this->fonte_nm])
+            ->andFilterWhere(['like', 'fonte_url', $this->fonte_url])
+            ->andFilterWhere(['like', 'logs', $this->logs]);
 
         return $dataProvider;
     }

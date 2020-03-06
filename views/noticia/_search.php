@@ -13,23 +13,34 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'options' => [
+            'data-pjax' => 1
+        ],
     ]); ?>
 
-    <?= $form->field($model, 'id_noticias') ?>
+    <?= $form->field($model, 'id') ?>
 
     <?= $form->field($model, 'id_categoria') ?>
 
-    <?= $form->field($model, 'titulo_noticia') ?>
+    <?= $form->field($model, 'titulo') ?>
 
-    <?= $form->field($model, 'descricao_noticia') ?>
+    <?= $form->field($model, 'corpo') ?>
 
-    <?= $form->field($model, 'autor_noticia') ?>
+    <?= $form->field($model, 'fonte_nm') ?>
 
-    <?php // echo $form->field($model, 'data_noticia') ?>
+    <?php // echo $form->field($model, 'fonte_url') ?>
 
-    <?php // echo $form->field($model, 'image_noticia') ?>
+    <?php // echo $form->field($model, 'dt_publicacao') ?>
 
-    <?php // echo $form->field($model, 'ativo') ?>
+    <?php // echo $form->field($model, 'id_user') ?>
+
+    <?php // echo $form->field($model, 'status') ?>
+
+    <?php // echo $form->field($model, 'dt_in') ?>
+
+    <?php // echo $form->field($model, 'dt_up') ?>
+
+    <?php // echo $form->field($model, 'logs') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

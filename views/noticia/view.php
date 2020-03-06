@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Noticia */
 
-$this->title = $model->id_noticias;
+$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Noticias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -16,11 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_noticias], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_noticias], [
+        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Tem certeza de que deseja excluir este item?',
+                'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,14 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_noticias',
-            'categoria.descricao_categoria',
-            'titulo_noticia',
-            'descricao_noticia',
-            'autor_noticia',
-            'data_noticia',
-            'image_noticia',
-            'ativo',
+            'id',
+            'id_categoria',
+            'titulo',
+            'corpo:ntext',
+            'fonte_nm',
+            'fonte_url:url',
+            'dt_publicacao',
+            'id_user',
+            'status',
+            'dt_in',
+            'dt_up',
+            'logs:ntext',
         ],
     ]) ?>
 

@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CategoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -15,9 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Nova Categoria', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Categoria', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
@@ -26,13 +27,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            /*'id_categoria',*/
-            'descricao_categoria',
-            'url_categoria:url',
-            'imagem_categoria',
+            'id',
+            'nome',
+            'descricao:ntext',
+            'id_user',
+            'status',
+            //'dt_in',
+            //'dt_up',
+            //'logs:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
+    <?php Pjax::end(); ?>
 
 </div>

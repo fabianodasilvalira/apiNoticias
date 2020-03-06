@@ -12,14 +12,22 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descricao_categoria')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'url_categoria')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'descricao')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'imagem_categoria')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'id_user')->textInput() ?>
+
+    <?= $form->field($model, 'status')->textInput() ?>
+
+    <?= $form->field($model, 'dt_in')->textInput() ?>
+
+    <?= $form->field($model, 'dt_up')->textInput() ?>
+
+    <?= $form->field($model, 'logs')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Salvar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -17,8 +17,8 @@ class CategoriaSearch extends Categoria
     public function rules()
     {
         return [
-            [['id_categoria'], 'integer'],
-            [['descricao_categoria', 'url_categoria', 'imagem_categoria'], 'safe'],
+            [['id', 'id_user', 'status'], 'integer'],
+            [['nome', 'descricao', 'dt_in', 'dt_up', 'logs'], 'safe'],
         ];
     }
 
@@ -58,12 +58,16 @@ class CategoriaSearch extends Categoria
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_categoria' => $this->id_categoria,
+            'id' => $this->id,
+            'id_user' => $this->id_user,
+            'status' => $this->status,
+            'dt_in' => $this->dt_in,
+            'dt_up' => $this->dt_up,
         ]);
 
-        $query->andFilterWhere(['like', 'descricao_categoria', $this->descricao_categoria])
-            ->andFilterWhere(['like', 'url_categoria', $this->url_categoria])
-            ->andFilterWhere(['like', 'imagem_categoria', $this->imagem_categoria]);
+        $query->andFilterWhere(['like', 'nome', $this->nome])
+            ->andFilterWhere(['like', 'descricao', $this->descricao])
+            ->andFilterWhere(['like', 'logs', $this->logs]);
 
         return $dataProvider;
     }

@@ -3,20 +3,24 @@
 namespace app\models;
 
 use Yii;
-use yii\web\UploadedFile;
 
 /**
- * This is the model class for table "noticias".
+ * This is the model class for table "noticia".
  *
- * @property int $id_noticias
+ * @property int $id
  * @property int $id_categoria
- * @property string $titulo_noticia
- * @property string $descricao_noticia
- * @property string $autor_noticia
- * @property string $data_noticia
- * @property string $image_noticia
- * @property int $ativo
+ * @property string $titulo
+ * @property string $corpo
+ * @property string|null $fonte_nm Nome da fonte da notícia, se não for própria
+ * @property string|null $fonte_url URL da fonte da notícia, se não for própria
+ * @property string $dt_publicacao
+ * @property int $id_user
+ * @property int $status
+ * @property string $dt_in
+ * @property string $dt_up
+ * @property string|null $logs
  *
+ * @property User $user
  * @property Categoria $categoria
  */
 class Noticia extends \yii\db\ActiveRecord
@@ -26,13 +30,8 @@ class Noticia extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'noticias';
+        return 'noticia';
     }
-    
-    /**
-     * @var UploadedFile
-     */
-    public $imageFile;
 
     /**
      * {@inheritdoc}
@@ -40,13 +39,14 @@ class Noticia extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_categoria', 'titulo_noticia', 'descricao_noticia', 'autor_noticia', 'data_noticia' ], 'required'],
-            [['id_categoria', 'ativo'], 'integer'],
-            [['data_noticia'], 'safe'],
-            [['titulo_noticia', 'descricao_noticia', 'autor_noticia'], 'string', 'max' => 150],
-            [['image_noticia'], 'string', 'max' => 50],
-            [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::className(), 'targetAttribute' => ['id_categoria' => 'id_categoria']],
-            // [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg'],
+            [['id_categoria', 'titulo', 'corpo', 'id_user'], 'required'],
+            [['id_categoria', 'id_user', 'status'], 'integer'],
+            [['corpo', 'logs'], 'string'],
+            [['dt_publicacao', 'dt_in', 'dt_up'], 'safe'],
+            [['titulo', 'fonte_url'], 'string', 'max' => 255],
+            [['fonte_nm'], 'string', 'max' => 100],
+            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_user' => 'id']],
+            [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::className(), 'targetAttribute' => ['id_categoria' => 'id']],
         ];
     }
 
@@ -56,15 +56,26 @@ class Noticia extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            // 'id_noticias' => 'Id Noticias',
-            'id_categoria' => 'Id Categoria',
-            'titulo_noticia' => 'Titulo Noticia',
-            'descricao_noticia' => 'Descricao Noticia',
-            'autor_noticia' => 'Autor Noticia',
-            'data_noticia' => 'Data Noticia',
-            'imageFile' => 'Imagem da notícia',
-            'ativo' => 'Ativo',
+            'id' => 'ID',
+            'id_categoria' => 'Categoria',
+            'titulo' => 'Titulo',
+            'corpo' => 'Corpo',
+            'fonte_nm' => 'Nome da Fonte',
+            'fonte_url' => 'URL da Fonte',
+            'dt_publicacao' => 'Publicação',
+            'id_user' => 'User',
+            'status' => 'Status',
         ];
+    }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'id_user']);
     }
 
     /**
@@ -74,29 +85,11 @@ class Noticia extends \yii\db\ActiveRecord
      */
     public function getCategoria()
     {
-        return $this->hasOne(Categoria::className(), ['id_categoria' => 'id_categoria']);
+        return $this->hasOne(Categoria::className(), ['id' => 'id_categoria']);
     }
 
-    public function fields(){
-        return [
-            'id_noticias',
-            'titulo_noticia',
-            'descricao_noticia',
-            'autor_noticia',
-            'data_noticia',
-            'image_noticia',
-            'ativo'=>function(Noticia $model){
-                return ($model->ativo == '1' ? 'Ativo' : 'Inativo');  },
-            'categoria',
-            // 'id_categoria',
-            
-        ];
+    public function getComentarios()
+    {
+        return $this->hasMany(Comentario::className(), ['id_objeto' => 'id', 'objeto' => 'Noticia']);
     }
-
-    public function extraFields(){
-        return [
-            'categoria',
-        ];
-    }
-    
 }

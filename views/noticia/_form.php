@@ -2,39 +2,42 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\Models\Categoria;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Noticia */
 /* @var $form yii\widgets\ActiveForm */
-
-$items = Categoria::find()->select(['descricao_categoria'])->indexBy('id_categoria')->column();
 ?>
 
 <div class="noticia-form">
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
-    <?php //$form = ActiveForm::begin(); ?>
-    
-    <?= $form->field($model, 'id_categoria')->DropdownList($items) ?>
-    
-    <?= $form->field($model, 'titulo_noticia')->textInput(['maxlength' => true]) ?>
+    <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descricao_noticia')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'id_categoria')->textInput() ?>
 
-    <?= $form->field($model, 'autor_noticia')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'titulo')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'data_noticia')->textInput() ?>
+    <?= $form->field($model, 'corpo')->textarea(['rows' => 6]) ?>
 
-    <?php  //$form->field($model, 'image_noticia')->textInput(['maxlength' => true]) ?>
-   
-    <?php /* <?= $form->field($model, 'ativo')->textInput() ?>*/?>
+    <?= $form->field($model, 'fonte_nm')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'imageFile')->fileInput() ?>
+    <?= $form->field($model, 'fonte_url')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'dt_publicacao')->textInput() ?>
+
+    <?= $form->field($model, 'id_user')->textInput() ?>
+
+    <?= $form->field($model, 'status')->textInput() ?>
+
+    <?= $form->field($model, 'dt_in')->textInput() ?>
+
+    <?= $form->field($model, 'dt_up')->textInput() ?>
+
+    <?= $form->field($model, 'logs')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+
 </div>

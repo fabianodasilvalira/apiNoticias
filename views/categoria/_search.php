@@ -13,15 +13,26 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'options' => [
+            'data-pjax' => 1
+        ],
     ]); ?>
 
-    <?= $form->field($model, 'id_categoria') ?>
+    <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'descricao_categoria') ?>
+    <?= $form->field($model, 'nome') ?>
 
-    <?= $form->field($model, 'url_categoria') ?>
+    <?= $form->field($model, 'descricao') ?>
 
-    <?= $form->field($model, 'imagem_categoria') ?>
+    <?= $form->field($model, 'id_user') ?>
+
+    <?= $form->field($model, 'status') ?>
+
+    <?php // echo $form->field($model, 'dt_in') ?>
+
+    <?php // echo $form->field($model, 'dt_up') ?>
+
+    <?php // echo $form->field($model, 'logs') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
