@@ -12,7 +12,8 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_categoria')->textInput() ?>
+    <?= $form->field($model, 'id_categoria')->DropdownList($categorias) ?>
+    <!-- <?= $form->field($model, 'id_categoria')->textInput() ?> -->
 
     <?= $form->field($model, 'titulo')->textInput(['maxlength' => true]) ?>
 
@@ -22,9 +23,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'fonte_url')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'dt_publicacao')->textInput() ?>
+    <?= $form->field($model, 'dt_publicacao')->input('date') ?>
 
-    <?= $form->field($model, 'id_user')->textInput() ?>
+    <?php /* $form->field($model, 'id_user')->textInput() ?>
 
     <?= $form->field($model, 'status')->textInput() ?>
 
@@ -32,7 +33,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'dt_up')->textInput() ?>
 
-    <?= $form->field($model, 'logs')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'logs')->textarea(['rows' => 6]) */?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

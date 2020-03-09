@@ -65,17 +65,35 @@ class LoginForm extends Model
         return false;
     }
 
+    // /**
+    //  * Finds user by [[username]]
+    //  *
+    //  * @return User|null
+    //  */
+    // public function getUser()
+    // {
+    //     if ($this->_user === false) {
+    //         $this->_user = User::findByUsername($this->username);
+    //     }
+
+    //     return $this->_user;
+    // }
+
     /**
-     * Finds user by [[username]]
+     * Finds user by [[email]]
      *
      * @return User|null
      */
-    public function getUser()
+    protected function getUser()
     {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+        // Verifica se username é e-mail para chamar o método findByEmail
+        if ($this->_user === null) {
+            if(filter_var($this->username, FILTER_VALIDATE_EMAIL)){
+                $this->_user = User::findByEmail($this->username);
+            } else {
+                $this->_user = User::findByUsername($this->username);
+            }
         }
-
         return $this->_user;
     }
 }

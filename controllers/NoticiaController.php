@@ -7,7 +7,12 @@ use app\models\Noticia;
 use app\models\NoticiaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
+
+use app\models\UploadForm;
+use app\models\Categoria;
+use app\models\Imagem;
 
 /**
  * NoticiaController implements the CRUD actions for Noticia model.
@@ -65,13 +70,29 @@ class NoticiaController extends Controller
     public function actionCreate()
     {
         $model = new Noticia();
+        $imagem = new Imagem();
+        $file = new UploadForm();
+        $categorias = Categoria::find()->select(['nome'])->indexBy('id')->column();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->isPost) {
+            $file->imageFile = UploadedFile::getInstance($imagem, 'imageFile');
+            $imagem->path = $file->upload();
         }
+        
+        if ($model->load(Yii::$app->request->post()) && $imagem->load(Yii::$app->request->post())){
+            $model->id_user = Yii::$app->user->id;
+            if($model->save()){
+                $imagem->id_user = Yii::$app->user->id;
+                $imagem->objeto = 'Noticia';//$model->className();
+                $imagem->id_objeto = $model->id;
 
+                if($imagem->save())
+                    return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }
         return $this->render('create', [
             'model' => $model,
+            'categorias' => $categorias,
         ]);
     }
 

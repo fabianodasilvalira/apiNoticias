@@ -62,7 +62,7 @@ class Noticia extends \yii\db\ActiveRecord
             'corpo' => 'Corpo',
             'fonte_nm' => 'Nome da Fonte',
             'fonte_url' => 'URL da Fonte',
-            'dt_publicacao' => 'Publicação',
+            'dt_publicacao' => 'Data de Publicação',
             'id_user' => 'User',
             'status' => 'Status',
         ];

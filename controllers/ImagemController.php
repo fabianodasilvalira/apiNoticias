@@ -66,8 +66,11 @@ class ImagemController extends Controller
     {
         $model = new Imagem();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->nome]);
+        if ($model->load(Yii::$app->request->post())){
+            $model->id_user = Yii::$app->user->id;
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->nome]);
+            }
         }
 
         return $this->render('create', [

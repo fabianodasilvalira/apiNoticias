@@ -73,7 +73,7 @@ class Comentario extends \yii\db\ActiveRecord
         return $this->hasMany(Comentario::className(), ['id_objeto' => 'id', 'objeto' => 'Comentario']);
     }
 
-    // public function getObjeto()
+    // public function getObjeto($obj = NULL)
     // {
     //     return $this->hasOne(User::className(), ['id' => 'id_user']);
     // }
