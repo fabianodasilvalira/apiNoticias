@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'dt_publicacao')->input('date') ?>
 
+    <?= $form->field($imagem, 'imageFile')->fileInput() ?>
+
     <?php /* $form->field($model, 'id_user')->textInput() ?>
 
     <?= $form->field($model, 'status')->textInput() ?>

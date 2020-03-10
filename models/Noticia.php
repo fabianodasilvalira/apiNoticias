@@ -65,6 +65,9 @@ class Noticia extends \yii\db\ActiveRecord
             'dt_publicacao' => 'Data de Publicação',
             'id_user' => 'User',
             'status' => 'Status',
+            
+            'categoria.nome' => 'Categoria',
+            'user.username' => 'User',
         ];
     }
 

@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `user`(
     `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID' ,
     `username` VARCHAR(255) NOT NULL COMMENT 'User Name' ,
     `email` VARCHAR(255) NOT NULL COMMENT 'e-mail' ,
-    `name` varchar(255) NOT NULL COMMENT 'Nome',
+    `name` varchar(255) COMMENT 'Nome',
     `phone` varchar(20) COMMENT 'Telefone',
     `perfil` enum ('Super Sayajin', 'Administrador', 'Moderador', 'Noticiarista', 'Usuário') DEFAULT 'Usuário',
     `auth_key` VARCHAR(32) NOT NULL ,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `categoria` (
     `logs` MEDIUMTEXT NULL DEFAULT NULL , #{"log" [{ "inserted" : "dd/mm/yyyy h:m:s", "user" : id_user}, {"updated" : "..." }]}
 
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    #FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     INDEX `nome` (`nome`)
 );
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `noticia` (
     `logs` MEDIUMTEXT NULL DEFAULT NULL , #{"log" [{ "inserted" : "dd/mm/yyyy h:m:s", "user" : id_user}, {"updated" : "..." }]}
 
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    #FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     FOREIGN KEY (`id_categoria`) REFERENCES `categoria`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
@@ -86,8 +86,8 @@ CREATE TABLE IF NOT EXISTS `comentario`(
     `dt_up` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `logs` MEDIUMTEXT NULL DEFAULT NULL , #{"log" [{ "inserted" : "dd/mm/yyyy h:m:s", "user" : id_user}, {"updated" : "..." }]}
 
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    PRIMARY KEY (`id`)
+    #FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS `imagem`(
@@ -107,15 +107,15 @@ CREATE TABLE IF NOT EXISTS `imagem`(
     `dt_up` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `logs` MEDIUMTEXT NULL DEFAULT NULL , #{"log" [{ "inserted" : "dd/mm/yyyy h:m:s", "user" : id_user}, {"updated" : "..." }]}
 
-    PRIMARY KEY (`nome`),
-    FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    PRIMARY KEY (`nome`)
+    #FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS `reacao`(
     `id_user` int(11) NOT NULL,
     `reacao` varchar(50) NOT NULL, #smille, sad, like, deslike...
     `objeto` SMALLINT NOT NULL COMMENT 'Nome da Class ao qual pertence', #(Comentario; Noticia)
-    `id_objeto` int(11) NOT NULL COMMENT 'Referenciar o id de Comentário ou de Notícia',
+    `id_objeto` int(11) NOT NULL COMMENT 'Referenciar o id de Comentário ou de Notícia'
 
-    FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    #FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );

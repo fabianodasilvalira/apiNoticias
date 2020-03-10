@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "imagem".
@@ -34,12 +36,20 @@ class Imagem extends \yii\db\ActiveRecord
     }
 
     /**
+     * @var UploadedFile
+     */
+    public $imageFile;
+
+    
+    /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['nome', 'path', 'id_objeto', 'id_user'], 'required'],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg'],
+            
+            [['nome', 'path', 'id_objeto', 'id_user', 'objeto'], 'required'],
             [['id_objeto', 'id_user', 'status'], 'integer'],
             [['dt_in', 'dt_up'], 'safe'],
             [['objeto', 'logs'], 'string'],
@@ -71,6 +81,33 @@ class Imagem extends \yii\db\ActiveRecord
             'dt_up' => 'Dt Up',
             'logs' => 'Logs',
         ];
+    }
+
+    public function load($data, $formName = NULL)
+    {
+        //$this->imageFile = UploadedFile::getInstance($data, 'imageFile');
+        $this->id_user = Yii::$app->user->id;
+        $this->objeto = key(array_diff_key($data, ["_csrf" => "", "Imagem" => ""]));
+        $this->upload();
+
+        // VarDumper::dump($obj, 10, true);
+        // die;
+    }
+
+    private function upload()
+    {
+        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+        $this->path = 'img/' . $this->objeto . '/';
+        $this->nome = time() . '_' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+        
+        // cria o diretório se não existir
+        if (!is_dir($this->path))
+            mkdir($this->path, 0755, true);
+        
+        if ($this->imageFile->saveAs($this->path . $this->nome))
+            return $this->path . $this->nome;
+        
+        return false;
     }
 
     /**

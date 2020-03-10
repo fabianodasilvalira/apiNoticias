@@ -7,13 +7,12 @@ use app\models\Noticia;
 use app\models\NoticiaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 
-use app\models\UploadForm;
 use app\models\Categoria;
 use app\models\Imagem;
 
+use yii\web\UploadedFile;
 /**
  * NoticiaController implements the CRUD actions for Noticia model.
  */
@@ -71,27 +70,41 @@ class NoticiaController extends Controller
     {
         $model = new Noticia();
         $imagem = new Imagem();
-        $file = new UploadForm();
         $categorias = Categoria::find()->select(['nome'])->indexBy('id')->column();
 
-        if (Yii::$app->request->isPost) {
-            $file->imageFile = UploadedFile::getInstance($imagem, 'imageFile');
-            $imagem->path = $file->upload();
-        }
+
+        // if($model->load(Yii::$app->request->post())){
+        //     $model->id_user = Yii::$app->user->id;
+        //     if ($model->save())
+        //         return $this->redirect(['view', 'id' => $model->id]);
+        // }
         
-        if ($model->load(Yii::$app->request->post()) && $imagem->load(Yii::$app->request->post())){
+        if ($model->load(Yii::$app->request->post())){
             $model->id_user = Yii::$app->user->id;
+            
             if($model->save()){
-                $imagem->id_user = Yii::$app->user->id;
-                $imagem->objeto = 'Noticia';//$model->className();
+                $imagem->load(Yii::$app->request->post());
+                
+                // $imagem->objeto = 'Noticia';//$model->className();
                 $imagem->id_objeto = $model->id;
 
+
+                //$imagem->nome = 'teste';
+
+                //$imagem->imageFile = UploadedFile::getInstance($imagem, 'imageFile');
+                //$imagem->path = $imagem->upload();
+
                 if($imagem->save())
+                    // echo "<pre>";
+                    // var_dump($imagem);
+                    // die;
+                    // //$this->notificaApp($model);
                     return $this->redirect(['view', 'id' => $model->id]);
             }
         }
         return $this->render('create', [
             'model' => $model,
+            'imagem' => $imagem,
             'categorias' => $categorias,
         ]);
     }
@@ -144,5 +157,39 @@ class NoticiaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function notificaApp($model)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => True,
+            CURLOPT_POSTFIELDS => '{
+                "to":  "/topics/Noticias",
+                "notification" : {
+                    "title": "' . $model->titulo . '",
+                    "body": "' . $model->corpo . '",
+                    "color": "#00008B",
+                    "ticker": "' . $model->id . '",
+                    "image": "https://miguelasnew.000webhostapp.com/' . $model->image[0] . '"
+                },
+                "data" : {
+                    "id" : "' . $model->id . '",
+                }
+            }',
+            CURLOPT_HTTPHEADER => array(
+                "authorization: key=AAAAdo7fu6Y:APA91bFCoCti2s6_WP6sCtd02O7fwWKX9Xqo87m3eMeQXI8v-Az-_h2LfkBVnhCb258Y5V_j6FWjlTP0zu9j3emUmVlxuSx4UZ7ERFz7EtmXAK3pN1COFM0eFAcNUSR_SDVNmLyG0RhF",
+                "content-type: application/json;charset=UTF-8",
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+        
+        return !($err) ? $response : "cURL Error #:" . $err;
     }
 }
