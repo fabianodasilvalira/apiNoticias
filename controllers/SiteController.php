@@ -13,11 +13,13 @@ use app\models\ResetPasswordForm;
 use app\models\SignupForm;
 use app\models\ContactForm;
 
-use app\models\UploadForm;
 use PHPUnit\Util\Json;
 use RestClient;
 use yii\helpers\Json as HelpersJson;
 use yii\web\UploadedFile;
+
+use app\models\UploadForm;
+use app\models\Noticia;
 
 class SiteController extends Controller
 {
@@ -70,7 +72,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = Noticia::find()->where(['status' => 5])->limit(10)->all();
+        
+        return $this->render('index', [
+            'model' => $model,
+        ]);
     }
 
     /**

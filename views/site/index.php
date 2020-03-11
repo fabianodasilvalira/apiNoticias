@@ -1,18 +1,53 @@
 <?php
 
+use yii\helpers\Html;
 /* @var $this yii\web\View */
 
-$this->title = 'Miguelas News - As Notícias de Miguela Alves-PI';
+$this->title = 'Noticias';
+// $this->params['breadcrumbs'][] = $this->title;
+
+// // echo "<pre>";
+// // var_dump($model);
+// foreach ($model as $n) {
+//     echo "<pre>";
+//     var_dump($n->imagem->nome);
+//     echo "</pre>";
+// }
+// die;
 ?>
 <div class="site-index">
+    <div class="row">
+        <?php foreach ($model as $noticia): ?>
+            <div class="col-md-12">
+                <h1 style="text-align: center;"><?= $noticia->titulo ?></h1>
+                <div class="row" style="margin: 10px 0;">
+                    <!-- <div> -->
+                        <div class="col-md-4"><?= $noticia->categoria->nome ?></div>
+                        <div class="col-md-4 text-center"><?= $noticia->user->username ?></div>
+                        <div class="col-md-4 text-right"><?= $noticia->dt_publicacao ?></div>
+                    <!-- </div> -->
+                </div>
+                <div style="text-align: justify;">
+                    <img src="<?= $noticia->imagem->path . $noticia->imagem->nome ?>" height="200" style="float:left; margin: 0 10px 10px 0">
+                    
+                    <?= $noticia->corpo ?>
+                </div>
+                <div>
+                    <p><?= $noticia->fonte_nm ?></p>
+                    <p><?= $noticia->fonte_url ?></p>
+                </div>
+            </div>
+            <hr>
+        <?php endforeach ?>
+    </div>
 
-    <div class="jumbotron">
+    <!-- <div class="jumbotron">
         <h1>Bem-vindo!</h1>
 
         <p class="lead">You have successfully created your Yii-powered application.</p>
 
         <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
+    </div> -->
 
     <div class="body-content">
 
