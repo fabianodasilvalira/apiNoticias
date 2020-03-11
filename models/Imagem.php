@@ -47,7 +47,7 @@ class Imagem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
             
             [['nome', 'path', 'id_objeto', 'id_user', 'objeto'], 'required'],
             [['id_objeto', 'id_user', 'status'], 'integer'],
@@ -88,24 +88,26 @@ class Imagem extends \yii\db\ActiveRecord
         //$this->imageFile = UploadedFile::getInstance($data, 'imageFile');
         $this->id_user = Yii::$app->user->id;
         $this->objeto = key(array_diff_key($data, ["_csrf" => "", "Imagem" => ""]));
-        $this->upload();
+        $r = $this->upload();
 
-        // VarDumper::dump($obj, 10, true);
+        // VarDumper::dump($r, 10, true);
         // die;
     }
 
     private function upload()
     {
-        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-        $this->path = 'img/' . $this->objeto . '/';
-        $this->nome = time() . '_' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
-        
-        // cria o diretório se não existir
-        if (!is_dir($this->path))
-            mkdir($this->path, 0755, true);
-        
-        if ($this->imageFile->saveAs($this->path . $this->nome))
-            return $this->path . $this->nome;
+        if ($this->imageFile = UploadedFile::getInstance($this, 'imageFile')){
+            $this->path = 'img/' . $this->objeto . '/';
+            $this->nome = time() . '_' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+            
+            // cria o diretório se não existir
+            if (!is_dir($this->path))
+                mkdir($this->path, 0755, true);
+            
+            if ($this->imageFile->saveAs($this->path . $this->nome))
+                $this->imageFile = null;
+                return $this->path . $this->nome;
+        }
         
         return false;
     }

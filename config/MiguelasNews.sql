@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `imagem`(
     `fonte_nm` varchar(100) COMMENT 'Nome da fonte da imagem, se não for própria',
     `fonte_url` varchar(255) COMMENT 'URL da fonte da imagem, se não for própria',
 
-    `objeto` SMALLINT NOT NULL COMMENT 'Nome da Class ao qual pertence', #(Categoria; Noticia)
+    `objeto` varchar(20) NOT NULL COMMENT 'Nome da Class ao qual pertence', #(Categoria; Noticia)
     `id_objeto` int(11) NOT NULL COMMENT 'Referenciar o id de Categoria ou de Notícia',
 
     `id_user` int NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `imagem`(
 CREATE TABLE IF NOT EXISTS `reacao`(
     `id_user` int(11) NOT NULL,
     `reacao` varchar(50) NOT NULL, #smille, sad, like, deslike...
-    `objeto` SMALLINT NOT NULL COMMENT 'Nome da Class ao qual pertence', #(Comentario; Noticia)
+    `objeto` varchar(20) NOT NULL COMMENT 'Nome da Class ao qual pertence', #(Comentario; Noticia)
     `id_objeto` int(11) NOT NULL COMMENT 'Referenciar o id de Comentário ou de Notícia'
 
     #FOREIGN KEY (`id_user`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION

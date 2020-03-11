@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'corpo:ntext',
             'categoria.nome',
             'user.username',
+            'imagem.nome',
             'status',
 
             ['class' => 'yii\grid\ActionColumn'],

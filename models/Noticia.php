@@ -68,6 +68,23 @@ class Noticia extends \yii\db\ActiveRecord
             
             'categoria.nome' => 'Categoria',
             'user.username' => 'User',
+            'imagem.nome' => 'Imagem',
+        ];
+    }
+
+    public function fields()
+    {
+        return[
+            'id',
+            'id_categoria',
+            'titulo',
+            'corpo',
+            'fonte_nm',
+            'fonte_url',
+            'dt_publicacao',
+            'status',
+            'imagens',
+            'categoria',
         ];
     }
 
@@ -93,6 +110,17 @@ class Noticia extends \yii\db\ActiveRecord
 
     public function getComentarios()
     {
-        return $this->hasMany(Comentario::className(), ['id_objeto' => 'id', 'objeto' => 'Noticia']);
+        return $this->hasMany(Comentario::className(), ['id_objeto' => 'id']->onCondition(['objeto' => 'Noticia']));
+    }
+
+    public function getImagens()
+    {
+        return $this->hasMany(Imagem::className(), ['id_objeto' => 'id'])->onCondition(['objeto' => 'Noticia']);
+    }
+
+    public function getImagem()
+    {
+        return $this->getImagens()->one();
+        // return $this->hasMany(Imagem::className(), ['id_objeto' => 'id'])->onCondition(['objeto' => 'Noticia'])->one();
     }
 }

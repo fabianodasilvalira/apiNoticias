@@ -12,6 +12,6 @@ public $modelClass = 'app\models\Noticia';
 
 	public function actionPorCategoria($id)
 	{	
-		return Noticia::find()->where(['id_categoria' => $id])->all();
+		return Noticia::find()->where(['id' => $id])->all();
 	}
 }

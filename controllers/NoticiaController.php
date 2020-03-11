@@ -12,7 +12,6 @@ use yii\filters\VerbFilter;
 use app\models\Categoria;
 use app\models\Imagem;
 
-use yii\web\UploadedFile;
 /**
  * NoticiaController implements the CRUD actions for Noticia model.
  */
@@ -71,13 +70,6 @@ class NoticiaController extends Controller
         $model = new Noticia();
         $imagem = new Imagem();
         $categorias = Categoria::find()->select(['nome'])->indexBy('id')->column();
-
-
-        // if($model->load(Yii::$app->request->post())){
-        //     $model->id_user = Yii::$app->user->id;
-        //     if ($model->save())
-        //         return $this->redirect(['view', 'id' => $model->id]);
-        // }
         
         if ($model->load(Yii::$app->request->post())){
             $model->id_user = Yii::$app->user->id;
@@ -85,21 +77,12 @@ class NoticiaController extends Controller
             if($model->save()){
                 $imagem->load(Yii::$app->request->post());
                 
-                // $imagem->objeto = 'Noticia';//$model->className();
                 $imagem->id_objeto = $model->id;
 
-
-                //$imagem->nome = 'teste';
-
-                //$imagem->imageFile = UploadedFile::getInstance($imagem, 'imageFile');
-                //$imagem->path = $imagem->upload();
-
-                if($imagem->save())
-                    // echo "<pre>";
-                    // var_dump($imagem);
-                    // die;
-                    // //$this->notificaApp($model);
+                if($imagem->save()){
+                    $this->notificaApp($model);
                     return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         }
         return $this->render('create', [
@@ -162,6 +145,7 @@ class NoticiaController extends Controller
     protected function notificaApp($model)
     {
         $curl = curl_init();
+        $img = $model->imagem->path . $model->imagem->nome;
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
             CURLOPT_RETURNTRANSFER => true,
@@ -173,7 +157,7 @@ class NoticiaController extends Controller
                     "body": "' . $model->corpo . '",
                     "color": "#00008B",
                     "ticker": "' . $model->id . '",
-                    "image": "https://miguelasnew.000webhostapp.com/' . $model->image[0] . '"
+                    "image": "https://miguelasnew.000webhostapp.com/' . $img . '"
                 },
                 "data" : {
                     "id" : "' . $model->id . '",
