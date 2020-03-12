@@ -130,4 +130,40 @@ class Noticia extends \yii\db\ActiveRecord
         $img = $this->getImagens()->one();
         return $img->path . $img->nome;
     }
+
+    public function notificaApp($model)
+    {
+        $curl = curl_init();
+        $img = $model->imagem->path . $model->imagem->nome;
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => True,
+            CURLOPT_POSTFIELDS => '{
+                "to":  "/topics/Noticias",
+                "notification" : {
+                    "title": "' . $model->titulo . '",
+                    "body": "' . $model->corpo . '",
+                    "color": "#00008B",
+                    "ticker": "' . $model->id . '",
+                    "image": "https://miguelasnew.000webhostapp.com/' . $img . '"
+                },
+                "data" : {
+                    "id" : "' . $model->id . '",
+                }
+            }',
+            CURLOPT_HTTPHEADER => array(
+                "authorization: key=AAAAdo7fu6Y:APA91bFCoCti2s6_WP6sCtd02O7fwWKX9Xqo87m3eMeQXI8v-Az-_h2LfkBVnhCb258Y5V_j6FWjlTP0zu9j3emUmVlxuSx4UZ7ERFz7EtmXAK3pN1COFM0eFAcNUSR_SDVNmLyG0RhF",
+                "content-type: application/json;charset=UTF-8",
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        $err = curl_error($curl);
+
+        curl_close($curl);
+        
+        return !($err) ? $response : "cURL Error #:" . $err;
+    }
 }

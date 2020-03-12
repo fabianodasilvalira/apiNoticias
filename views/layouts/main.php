@@ -62,30 +62,6 @@ AppAsset::register($this);
             ],
         ])
     );
-    // echo Nav::widget([
-    //     'options' => ['class' => 'navbar-nav navbar-right'],
-    //     'items' => [
-    //         // ['label' => 'Home', 'url' => ['/site/index']],
-    //         // ['label' => 'Sobre', 'url' => ['/site/about']],
-    //         // ['label' => 'Contato', 'url' => ['/site/contact']],
-    //         ['label' => 'Noticias', 'url' => ['/noticia/index']],
-    //         ['label' => 'Categorias', 'url' => ['/categoria/index']],
-    //         ['label' => 'Imagens', 'url' => ['/imagem/index']],
-    //         ['label' => 'Comentários', 'url' => ['/comentario/index']],
-    //         Yii::$app->user->isGuest ? (
-    //             ['label' => 'Login', 'url' => ['/site/login']]
-    //         ) : (
-    //             '<li>'
-    //             . Html::beginForm(['/site/logout'], 'post')
-    //             . Html::submitButton(
-    //                 'Logout (' . Yii::$app->user->identity->username . ')',
-    //                 ['class' => 'btn btn-link logout']
-    //             )
-    //             . Html::endForm()
-    //             . '</li>'
-    //         )
-    //     ],
-    // ]);
     NavBar::end();
     ?>
 
@@ -102,7 +78,7 @@ AppAsset::register($this);
     <div class="container">
         <p class="pull-left">&copy; Digital FruitJuice <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><?php // Yii::powered() ?></p>
     </div>
 </footer>
 

@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\ComentarioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Comentarios';
+$this->title = 'Comentários';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comentario-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Comentario', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Adicionar', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

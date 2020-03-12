@@ -3,17 +3,8 @@
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 
-$this->title = 'Noticias';
+$this->title = Yii::$app->name;
 // $this->params['breadcrumbs'][] = $this->title;
-
-// // echo "<pre>";
-// // var_dump($model);
-// foreach ($model as $n) {
-//     echo "<pre>";
-//     var_dump($n->imagem->nome);
-//     echo "</pre>";
-// }
-// die;
 ?>
 <div class="site-index">
     <div class="row">

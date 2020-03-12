@@ -33,11 +33,11 @@ class NoticiaController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                    [
-                        'actions' => ['index'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
+                    // [
+                    //     'actions' => ['index'],
+                    //     'allow' => true,
+                    //     'roles' => ['?'],
+                    // ],
                 ],
             ],
             'verbs' => [
@@ -97,7 +97,7 @@ class NoticiaController extends Controller
                 $imagem->id_objeto = $model->id;
 
                 if($imagem->save()){
-                    $this->notificaApp($model);
+                    $model->notificaApp($model);
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
@@ -119,6 +119,8 @@ class NoticiaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $imagem = new Imagem();
+        $categorias = Categoria::find()->select(['nome'])->indexBy('id')->column();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -126,6 +128,8 @@ class NoticiaController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'imagem' => $imagem,
+            'categorias' => $categorias,
         ]);
     }
 
@@ -159,38 +163,5 @@ class NoticiaController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    protected function notificaApp($model)
-    {
-        $curl = curl_init();
-        $img = $model->imagem->path . $model->imagem->nome;
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => True,
-            CURLOPT_POSTFIELDS => '{
-                "to":  "/topics/Noticias",
-                "notification" : {
-                    "title": "' . $model->titulo . '",
-                    "body": "' . $model->corpo . '",
-                    "color": "#00008B",
-                    "ticker": "' . $model->id . '",
-                    "image": "https://miguelasnew.000webhostapp.com/' . $img . '"
-                },
-                "data" : {
-                    "id" : "' . $model->id . '",
-                }
-            }',
-            CURLOPT_HTTPHEADER => array(
-                "authorization: key=AAAAdo7fu6Y:APA91bFCoCti2s6_WP6sCtd02O7fwWKX9Xqo87m3eMeQXI8v-Az-_h2LfkBVnhCb258Y5V_j6FWjlTP0zu9j3emUmVlxuSx4UZ7ERFz7EtmXAK3pN1COFM0eFAcNUSR_SDVNmLyG0RhF",
-                "content-type: application/json;charset=UTF-8",
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-        
-        return !($err) ? $response : "cURL Error #:" . $err;
-    }
+    
 }

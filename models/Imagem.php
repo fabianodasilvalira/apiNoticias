@@ -98,15 +98,15 @@ class Imagem extends \yii\db\ActiveRecord
     {
         if ($this->imageFile = UploadedFile::getInstance($this, 'imageFile')){
             $this->path = 'img/' . $this->objeto . '/';
-            $this->nome = time() . '_' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
-            
+            $this->nome = $this->path . time() . '_' . md5($this->imageFile->baseName) . '.' . $this->imageFile->extension;
+
             // cria o diretório se não existir
             if (!is_dir($this->path))
                 mkdir($this->path, 0755, true);
             
-            if ($this->imageFile->saveAs($this->path . $this->nome))
+            if ($this->imageFile->saveAs($this->nome))
                 $this->imageFile = null;
-                return $this->path . $this->nome;
+                return $this->nome;
         }
         
         return false;

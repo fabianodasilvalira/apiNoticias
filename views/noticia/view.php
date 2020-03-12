@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Noticia */
 
-$this->title = $model->id;
+$this->title = $model->titulo;
 $this->params['breadcrumbs'][] = ['label' => 'Noticias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Tem certeza que deseja excluir esta notícia?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,18 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'id_categoria',
+            // 'id',
+            'categoria.nome',
             'titulo',
             'corpo:ntext',
             'fonte_nm',
             'fonte_url:url',
             'dt_publicacao',
-            'id_user',
+            'imagem_capa',
+            'user.username',
             'status',
             'dt_in',
             'dt_up',
-            'logs:ntext',
         ],
     ]) ?>
 
