@@ -83,6 +83,7 @@ class Noticia extends \yii\db\ActiveRecord
             'fonte_url',
             'dt_publicacao',
             'status',
+            'imagem_capa',
             'imagens',
             'categoria',
         ];
@@ -122,5 +123,11 @@ class Noticia extends \yii\db\ActiveRecord
     {
         return $this->getImagens()->one();
         // return $this->hasMany(Imagem::className(), ['id_objeto' => 'id'])->onCondition(['objeto' => 'Noticia'])->one();
+    }
+
+    public function getImagem_capa()
+    {
+        $img = $this->getImagens()->one();
+        return $img->path . $img->nome;
     }
 }

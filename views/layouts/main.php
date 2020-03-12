@@ -35,46 +35,15 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    // echo !Yii::$app->user->isGuest ? (
-    //     Nav::widget([
-    //         'options' => ['class' => 'navbar-nav navbar-right'],
-    //         'items' => [
-    //             ['label' => 'Noticias', 'url' => ['/noticia/index']],
-    //             ['label' => 'Categorias', 'url' => ['/categoria/index']],
-    //             ['label' => 'Imagens', 'url' => ['/imagem/index']],
-    //             ['label' => 'Comentários', 'url' => ['/comentario/index']],
-    //             ['label' => 'API', 'url' => ['/api']],
-    //             '<li>'
-    //             . Html::beginForm(['/site/logout'], 'post')
-    //             . Html::submitButton(
-    //                 'Logout (' . Yii::$app->user->identity->username . ')',
-    //                 ['class' => 'btn btn-link logout']
-    //             )
-    //             . Html::endForm()
-    //             . '</li>'
-    //         ],
-    //     ])
-    // ) : (
-    //     Nav::widget([
-    //         'options' => ['class' => 'navbar-nav navbar-right'],
-    //         'items' => [
-    //             ['label' => 'Login', 'url' => ['/site/login']],
-    //         ],
-    //     ])
-    // );
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            // ['label' => 'Home', 'url' => ['/site/index']],
-            // ['label' => 'Sobre', 'url' => ['/site/about']],
-            // ['label' => 'Contato', 'url' => ['/site/contact']],
-            ['label' => 'Noticias', 'url' => ['/noticia/index']],
-            ['label' => 'Categorias', 'url' => ['/categoria/index']],
-            ['label' => 'Imagens', 'url' => ['/imagem/index']],
-            ['label' => 'Comentários', 'url' => ['/comentario/index']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
+    echo !Yii::$app->user->isGuest ? (
+        Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => [
+                ['label' => 'Noticias', 'url' => ['/noticia/index']],
+                ['label' => 'Categorias', 'url' => ['/categoria/index']],
+                ['label' => 'Imagens', 'url' => ['/imagem/index']],
+                ['label' => 'Comentários', 'url' => ['/comentario/index']],
+                ['label' => 'API', 'url' => ['/api']],
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
@@ -83,9 +52,40 @@ AppAsset::register($this);
                 )
                 . Html::endForm()
                 . '</li>'
-            )
-        ],
-    ]);
+            ],
+        ])
+    ) : (
+        Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => [
+                ['label' => 'Login', 'url' => ['/site/login']],
+            ],
+        ])
+    );
+    // echo Nav::widget([
+    //     'options' => ['class' => 'navbar-nav navbar-right'],
+    //     'items' => [
+    //         // ['label' => 'Home', 'url' => ['/site/index']],
+    //         // ['label' => 'Sobre', 'url' => ['/site/about']],
+    //         // ['label' => 'Contato', 'url' => ['/site/contact']],
+    //         ['label' => 'Noticias', 'url' => ['/noticia/index']],
+    //         ['label' => 'Categorias', 'url' => ['/categoria/index']],
+    //         ['label' => 'Imagens', 'url' => ['/imagem/index']],
+    //         ['label' => 'Comentários', 'url' => ['/comentario/index']],
+    //         Yii::$app->user->isGuest ? (
+    //             ['label' => 'Login', 'url' => ['/site/login']]
+    //         ) : (
+    //             '<li>'
+    //             . Html::beginForm(['/site/logout'], 'post')
+    //             . Html::submitButton(
+    //                 'Logout (' . Yii::$app->user->identity->username . ')',
+    //                 ['class' => 'btn btn-link logout']
+    //             )
+    //             . Html::endForm()
+    //             . '</li>'
+    //         )
+    //     ],
+    // ]);
     NavBar::end();
     ?>
 

@@ -72,7 +72,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $model = Noticia::find()->where(['status' => 5])->limit(10)->all();
+        $model = Noticia::find()->where(['status' => 5])->orderBy('dt_in DESC, dt_publicacao DESC')->limit(10)->all();
         
         return $this->render('index', [
             'model' => $model,

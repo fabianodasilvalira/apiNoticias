@@ -58,6 +58,18 @@ class Categoria extends \yii\db\ActiveRecord
         ];
     }
 
+    public function fields()
+    {
+        return[
+            'id',
+            'nome',
+            'descricao',
+            'status',
+            'imagem',
+            // 'noticias',
+        ];
+    }
+
     /**
      * Gets query for [[User]].
      *
@@ -73,8 +85,14 @@ class Categoria extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getNoticias()
+    // public function getNoticias()
+    // {
+    //     return $this->hasMany(Noticia::className(), ['id_categoria' => 'id']);
+    // }
+
+    public function getImagem()
     {
-        return $this->hasMany(Noticia::className(), ['id_categoria' => 'id']);
+        $img = $this->hasMany(Imagem::className(), ['id_objeto' => 'id'])->onCondition(['objeto' => 'Categoria'])->one();
+        return $img->path . $img->nome;
     }
 }

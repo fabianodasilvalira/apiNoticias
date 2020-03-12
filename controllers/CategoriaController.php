@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
+use app\models\Imagem;
+
 /**
  * CategoriaController implements the CRUD actions for Categoria model.
  */
@@ -77,16 +79,23 @@ class CategoriaController extends Controller
     public function actionCreate()
     {
         $model = new Categoria();
+        $imagem = new Imagem();
 
         if ($model->load(Yii::$app->request->post())){ 
             $model->id_user = Yii::$app->user->id;
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if($model->save()){
+                $imagem->load(Yii::$app->request->post());
+                $imagem->id_objeto = $model->id;
+
+                if($imagem->save()){
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         }
 
         return $this->render('create', [
             'model' => $model,
+            'imagem' => $imagem,
         ]);
     }
 
