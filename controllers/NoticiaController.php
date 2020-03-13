@@ -92,10 +92,9 @@ class NoticiaController extends Controller
             $model->id_user = Yii::$app->user->id;
             
             if($model->save()){
+                $imagem->id_objeto = $model->id;
                 $imagem->load(Yii::$app->request->post());
                 
-                $imagem->id_objeto = $model->id;
-
                 if($imagem->save()){
                     $model->notificaApp($model);
                     return $this->redirect(['view', 'id' => $model->id]);

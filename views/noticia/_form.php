@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="noticia-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'id_categoria')->DropdownList($categorias) ?>
     <!-- <?= $form->field($model, 'id_categoria')->textInput() ?> -->

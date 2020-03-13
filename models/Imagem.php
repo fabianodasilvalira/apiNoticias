@@ -38,7 +38,7 @@ class Imagem extends \yii\db\ActiveRecord
     /**
      * @var UploadedFile
      */
-    public $imageFile;
+    public $imageFile = null;
 
     
     /**
@@ -88,7 +88,7 @@ class Imagem extends \yii\db\ActiveRecord
         //$this->imageFile = UploadedFile::getInstance($data, 'imageFile');
         $this->id_user = Yii::$app->user->id;
         $this->objeto = key(array_diff_key($data, ["_csrf" => "", "Imagem" => ""]));
-        $r = $this->upload();
+        return $this->upload();
 
         // VarDumper::dump($r, 10, true);
         // die;
@@ -104,9 +104,11 @@ class Imagem extends \yii\db\ActiveRecord
             if (!is_dir($this->path))
                 mkdir($this->path, 0755, true);
             
-            if ($this->imageFile->saveAs($this->nome))
+            if ($this->validate()){
+                $this->imageFile->saveAs($this->nome);
                 $this->imageFile = null;
                 return $this->nome;
+            }
         }
         
         return false;
