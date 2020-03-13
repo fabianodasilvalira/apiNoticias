@@ -58,14 +58,18 @@ $config = [
         
         'urlManager' => [
             'enablePrettyUrl' => true,
+            // 'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
                 [
-                    'class'=> 'yii\rest\UrlRule', 
+                    'class'=> 'yii\rest\UrlRule',
                     'pluralize'=>false,
                     'controller'=>[
                         'api/noticia',
                         'api/categoria',
+                    ],
+                    'extraPatterns' => [
+                        'GET por-categoria/<id>' => 'por-categoria',
                     ],
                 ],
             ],

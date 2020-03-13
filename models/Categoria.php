@@ -93,6 +93,6 @@ class Categoria extends \yii\db\ActiveRecord
     public function getImagem()
     {
         $img = $this->hasMany(Imagem::className(), ['id_objeto' => 'id'])->onCondition(['objeto' => 'Categoria'])->one();
-        return $img->path . $img->nome;
+        return $img->nome;
     }
 }

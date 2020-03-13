@@ -19,7 +19,7 @@ $this->title = Yii::$app->name;
                     <!-- </div> -->
                 </div>
                 <div style="text-align: justify;">
-                    <img src="<?= $noticia->imagem->path . $noticia->imagem->nome ?>" height="200" style="float:left; margin: 0 10px 10px 0">
+                    <img src="<?= $noticia->imagem->nome ?>" height="200" style="float:left; margin: 0 10px 10px 0">
                     
                     <?= $noticia->corpo ?>
                 </div>

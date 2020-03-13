@@ -77,6 +77,7 @@ class Noticia extends \yii\db\ActiveRecord
         return[
             'id',
             'id_categoria',
+            'categoria',
             'titulo',
             'corpo',
             'fonte_nm',
@@ -85,7 +86,6 @@ class Noticia extends \yii\db\ActiveRecord
             'status',
             'imagem_capa',
             'imagens',
-            'categoria',
         ];
     }
 
@@ -128,25 +128,24 @@ class Noticia extends \yii\db\ActiveRecord
     public function getImagem_capa()
     {
         $img = $this->getImagens()->one();
-        return $img->path . $img->nome;
+        return $img->nome;
     }
 
     public function notificaApp($model)
     {
         $curl = curl_init();
-        $img = $model->imagem->path . $model->imagem->nome;
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => True,
             CURLOPT_POSTFIELDS => '{
-                "to":  "/topics/Noticias",
+                "to":  "/topics/All",
                 "notification" : {
                     "title": "' . $model->titulo . '",
                     "body": "' . $model->corpo . '",
                     "color": "#00008B",
                     "ticker": "' . $model->id . '",
-                    "image": "https://miguelasnew.000webhostapp.com/' . $img . '"
+                    "image": "https://miguelasnew.000webhostapp.com/' . $model->imagem->nome . '"
                 },
                 "data" : {
                     "id" : "' . $model->id . '",
