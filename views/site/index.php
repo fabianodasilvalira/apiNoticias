@@ -19,7 +19,9 @@ $this->title = Yii::$app->name;
                     <!-- </div> -->
                 </div>
                 <div style="text-align: justify;">
-                    <img src="<?= $noticia->imagem->nome ?>" height="200" style="float:left; margin: 0 10px 10px 0">
+                    <?php if ($noticia->imagem): ?>
+                        <img src="<?= $noticia->imagem->nome ?>" height="200" style="float:left; margin: 0 10px 10px 0">
+                    <?php endif ?>
                     
                     <?= $noticia->corpo ?>
                 </div>

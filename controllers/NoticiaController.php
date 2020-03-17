@@ -96,7 +96,7 @@ class NoticiaController extends Controller
                 $imagem->load(Yii::$app->request->post());
                 
                 if($imagem->save()){
-                    $model->notificaApp($model);
+                    // $model->notificaApp($model);
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }

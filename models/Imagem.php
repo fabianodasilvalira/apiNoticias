@@ -38,7 +38,7 @@ class Imagem extends \yii\db\ActiveRecord
     /**
      * @var UploadedFile
      */
-    public $imageFile = null;
+    public $imageFiles;
 
     
     /**
@@ -47,7 +47,7 @@ class Imagem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
+            [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
             
             [['nome', 'path', 'id_objeto', 'id_user', 'objeto'], 'required'],
             [['id_objeto', 'id_user', 'status'], 'integer'],
@@ -96,17 +96,26 @@ class Imagem extends \yii\db\ActiveRecord
 
     private function upload()
     {
-        if ($this->imageFile = UploadedFile::getInstance($this, 'imageFile')){
+        if ($this->imageFiles = UploadedFile::getInstances($this, 'imageFiles')){
             $this->path = 'img/' . $this->objeto . '/';
-            $this->nome = $this->path . time() . '_' . md5($this->imageFile->baseName) . '.' . $this->imageFile->extension;
-
+            $this->nome = $this->path . time() . '_';
             // cria o diretório se não existir
             if (!is_dir($this->path))
                 mkdir($this->path, 0755, true);
             
+            // echo "<pre>";
+            // var_dump($this->imageFiles);
+            // die;
+
             if ($this->validate()){
-                $this->imageFile->saveAs($this->nome);
-                $this->imageFile = null;
+                foreach ($this->imageFiles as $key => $file) {
+                    $this->nome .= md5($file->baseName) . '.' . $file->extension;
+
+                    $file->saveAs($this->nome);
+                    
+                    $this->imageFiles[$key]->tempName = $this->nome;
+                }
+
                 return $this->nome;
             }
         }
