@@ -93,9 +93,7 @@ class NoticiaController extends Controller
             
             if($model->save()){
                 $imagem->id_objeto = $model->id;
-                var_dump(Yii::$app->request->post());
-                die;
-                if($imagem->save(Yii::$app->request->post())){
+                if($imagem->load(Yii::$app->request->post())){
                 
                 // if($imagem->save()){
                     // $model->notificaApp($model);

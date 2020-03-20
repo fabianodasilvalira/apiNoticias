@@ -85,6 +85,9 @@ class Imagem extends \yii\db\ActiveRecord
 
     public function load($data, $formName = NULL)
     {
+        // echo "<pre>";
+        // var_dump($data);
+        // die;
         //$this->imageFile = UploadedFile::getInstance($data, 'imageFile');
         $this->id_user = Yii::$app->user->id;
         $this->objeto = key(array_diff_key($data, ["_csrf" => "", "Imagem" => ""]));
@@ -109,11 +112,19 @@ class Imagem extends \yii\db\ActiveRecord
 
             if ($this->validate()){
                 foreach ($this->imageFiles as $key => $file) {
-                    $this->nome .= md5($file->baseName) . '.' . $file->extension;
+                    $i = new Imagem();
+                    $i->nome = $this->nome;
+                    $i->path = $this->path;
+                    $i->id_objeto = $this->id_objeto;
+                    $i->id_user = $this->id_user;
+                    $i->objeto = $this->objeto;
 
-                    $file->saveAs($this->nome);
+                    $i->nome .= md5($file->baseName) . '.' . $file->extension;
+
+                    $file->saveAs($i->nome);
+                    $i->save();
                     
-                    $this->imageFiles[$key]->tempName = $this->nome;
+                    $this->imageFiles[$key]->tempName = $i->nome;
                 }
 
                 return $this->nome;
@@ -133,11 +144,8 @@ class Imagem extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'id_user']);
     }
 
-    public function save($runValidation = true, $attributeNames = NULL, $data = [])
+    public function save($runValidation = true, $attributeNames = NULL)
     {
-        echo "<pre>";
-        var_dump($data);
-        die;
-        return true;
+        return parent::save($runValidation, $attributeNames);
     }
 }
